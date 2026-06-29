@@ -2,63 +2,63 @@ import Link from "next/link";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-warm flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-warm flex items-center justify-center p-6">
+      <div className="w-full max-w-lg">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2.5 mb-6">
-            <div className="w-9 h-9 rounded-lg bg-sidebar flex items-center justify-center">
-              <span className="text-accent font-bold">م</span>
+        <div className="text-center mb-10">
+          <Link href="/" className="inline-flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-xl bg-sidebar flex items-center justify-center">
+              <span className="text-accent font-bold text-xl">م</span>
             </div>
-            <span className="font-bold text-ink text-xl">MyMadrassa</span>
+            <span className="font-bold text-ink text-2xl">MyMadrassa</span>
           </Link>
-          <h1 className="text-2xl font-bold text-ink">Welcome back</h1>
-          <p className="text-muted text-sm mt-1">Sign in to continue your learning</p>
+          <h1 className="text-4xl font-bold text-ink">Welcome back</h1>
+          <p className="text-muted text-lg mt-2">Sign in to continue your learning</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl border border-line p-8">
-          <form className="space-y-5">
+        <div className="bg-white rounded-3xl border border-line p-10">
+          <form className="space-y-6">
             <div>
-              <label className="block text-ink text-sm font-medium mb-1.5">Email address</label>
+              <label className="block text-ink text-base font-semibold mb-2">Email address</label>
               <input
                 type="email"
                 placeholder="you@example.com"
-                className="w-full bg-warm border border-line rounded-xl px-4 py-3 text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
+                className="w-full bg-warm border border-line rounded-xl px-5 py-4 text-base text-ink placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
               />
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-ink text-sm font-medium">Password</label>
-                <a href="#" className="text-accent text-xs hover:underline">Forgot password?</a>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-ink text-base font-semibold">Password</label>
+                <a href="#" className="text-accent text-sm font-medium hover:underline">Forgot password?</a>
               </div>
               <input
                 type="password"
                 placeholder="••••••••"
-                className="w-full bg-warm border border-line rounded-xl px-4 py-3 text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
+                className="w-full bg-warm border border-line rounded-xl px-5 py-4 text-base text-ink placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-sidebar text-white font-semibold py-3 rounded-xl text-sm hover:bg-ink/90 transition-colors"
+              className="w-full bg-sidebar text-white font-bold py-4 rounded-xl text-base hover:opacity-90 transition-opacity"
             >
               Sign in
             </button>
           </form>
 
-          <div className="relative my-6">
+          <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-line" />
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-white px-3 text-muted text-xs">or continue with</span>
+              <span className="bg-white px-4 text-muted text-sm">or continue with</span>
             </div>
           </div>
 
-          <button className="w-full bg-warm border border-line rounded-xl py-3 text-sm text-ink font-medium hover:border-accent transition-colors flex items-center justify-center gap-2">
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
+          <button className="w-full bg-warm border border-line rounded-xl py-4 text-base text-ink font-semibold hover:border-accent transition-colors flex items-center justify-center gap-3">
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -68,9 +68,9 @@ export default function LoginPage() {
           </button>
         </div>
 
-        <p className="text-center text-muted text-sm mt-6">
-          Don't have an account?{" "}
-          <Link href="/signup" className="text-accent font-semibold hover:underline">
+        <p className="text-center text-muted text-base mt-8">
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" className="text-accent font-bold hover:underline">
             Sign up
           </Link>
         </p>
