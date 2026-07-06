@@ -1,6 +1,14 @@
 import Link from "next/link";
 
+// TODO: Replace with your actual booking URL
+const BOOKING_URL = "https://calendly.com/mymadrassa";
+
 const features = [
+  {
+    icon: "📞",
+    title: "Free diagnostic session",
+    desc: "Start with a one-to-one assessment. We evaluate your current level and build a personalised learning pathway.",
+  },
   {
     icon: "🎙️",
     title: "Live classes with scholars",
@@ -31,15 +39,98 @@ const features = [
     title: "Recognised certificates",
     desc: "Complete courses and receive certificates signed by our scholars.",
   },
+  {
+    icon: "💬",
+    title: "WhatsApp support",
+    desc: "Direct access to your teacher between sessions. Ask questions, share recitations, stay consistent.",
+  },
 ];
 
-const courses = [
-  { icon: "الج", title: "Al-Jazariyyah", category: "Tajweed", level: "Intermediate", teacher: "Ustadh Ahmad", students: 142 },
-  { icon: "تخ", title: "Tuhfatul Atfaal", category: "Tajweed", level: "Beginner", teacher: "Ustadh Ahmad", students: 98 },
-  { icon: "ع", title: "Sciences of the Qur'an", category: "Ulum", level: "All levels", teacher: "Sh. Bilal", students: 211 },
-  { icon: "ح", title: "Hifz Program", category: "Memorisation", level: "All levels", teacher: "Sh. Bilal", students: 76 },
-  { icon: "ل", title: "Arabic Level 1", category: "Arabic", level: "Beginner", teacher: "Ust. Maryam", students: 183 },
-  { icon: "ش", title: "Ash-Shaatibiyyah", category: "Tajweed", level: "Advanced", teacher: "Ustadh Ahmad", students: 54 },
+const courseCategories = [
+  {
+    label: "Qur'an",
+    color: "bg-emerald-50 border-emerald-200",
+    badge: "text-emerald-700 bg-emerald-100",
+    courses: [
+      {
+        icon: "ق",
+        title: "Qaaida",
+        subtitle: "Arabic Reading Foundation",
+        desc: "The essential starting point. Learn to read Arabic script and Qur'anic text from scratch — no prior knowledge needed.",
+        level: "Beginner",
+        students: 284,
+        price: "£40/mo",
+        slug: "qaaida",
+      },
+      {
+        icon: "ح",
+        title: "Hifz Program",
+        subtitle: "Full Qur'an Memorisation",
+        desc: "Structured memorisation with daily revision, sabqi, manzil, and dedicated teacher accountability.",
+        level: "All levels",
+        students: 189,
+        price: "£50/mo",
+        slug: "hifz",
+      },
+      {
+        icon: "ت",
+        title: "Tajweed",
+        subtitle: "Tuhfatul Atfaal",
+        desc: "Master the foundational rules of Tajweed through the classical Tuhfatul Atfaal text — one-to-one with a certified scholar.",
+        level: "Beginner → Intermediate",
+        students: 312,
+        price: "£40/mo",
+        slug: "tajweed",
+      },
+      {
+        icon: "إ",
+        title: "Ijaazah",
+        subtitle: "Tuhfatul Atfaal & Al-Jazariyyah",
+        desc: "Study the Jazariyyah, perfect your recitation, and receive a formal ijazah with an unbroken sanad to the Prophet ﷺ.",
+        level: "Advanced",
+        students: 94,
+        price: "£60/mo",
+        slug: "ijaazah",
+      },
+      {
+        icon: "ر",
+        title: "Qira'aat",
+        subtitle: "Al-Shaatibiyyah",
+        desc: "Study the seven canonical Qira'aat through Al-Shaatibiyyah with a specialist scholar. The highest level of Qur'anic mastery.",
+        level: "Expert",
+        students: 47,
+        price: "£70/mo",
+        slug: "qiraat",
+      },
+      {
+        icon: "ع",
+        title: "Sciences of the Qur'an",
+        subtitle: "Ulum al-Qur'an",
+        desc: "Revelation history, Tafsir methodology, asbab al-nuzul, abrogation, and the miraculous nature of the Qur'an.",
+        level: "Intermediate",
+        students: 211,
+        price: "£40/mo",
+        slug: "sciences",
+      },
+    ],
+  },
+  {
+    label: "Arabic",
+    color: "bg-blue-50 border-blue-200",
+    badge: "text-blue-700 bg-blue-100",
+    courses: [
+      {
+        icon: "ع",
+        title: "Arabic",
+        subtitle: "Arabiyya Bayna Yadayk",
+        desc: "Four-book series from complete beginner through to fluency in classical and scholarly Arabic — one-to-one with a qualified teacher.",
+        level: "Beginner → Mastery",
+        students: 693,
+        price: "£50/mo per level",
+        slug: "arabic",
+      },
+    ],
+  },
 ];
 
 const testimonials = [
@@ -63,36 +154,6 @@ const testimonials = [
   },
 ];
 
-const plans = [
-  {
-    name: "Seeker",
-    price: "$19",
-    period: "/mo",
-    desc: "For those beginning their journey.",
-    features: ["Access to 5 courses", "Live class recordings", "Community access", "Monthly progress report"],
-    cta: "Get started",
-    highlight: false,
-  },
-  {
-    name: "Scholar",
-    price: "$39",
-    period: "/mo",
-    desc: "For committed, serious students.",
-    features: ["Access to all courses", "Live classes included", "1-on-1 teacher sessions", "Ijazah pathway", "Priority support"],
-    cta: "Start Scholar plan",
-    highlight: true,
-  },
-  {
-    name: "Lifetime",
-    price: "$299",
-    period: " once",
-    desc: "One payment. Learn forever.",
-    features: ["Everything in Scholar", "Lifetime access", "All future courses", "Certificate of completion"],
-    cta: "Get lifetime access",
-    highlight: false,
-  },
-];
-
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-ink">
@@ -107,16 +168,16 @@ export default function LandingPage() {
             <span className="font-bold text-ink text-xl tracking-tight">MyMadrassa</span>
           </div>
           <div className="hidden md:flex items-center gap-10 text-base text-muted font-medium">
-            <a href="#courses" className="hover:text-ink transition-colors">Courses</a>
-            <a href="#how-it-works" className="hover:text-ink transition-colors">How it works</a>
-            <a href="#pricing" className="hover:text-ink transition-colors">Pricing</a>
+            <Link href="/courses" className="hover:text-ink transition-colors">Courses</Link>
+            <Link href="/resources" className="hover:text-ink transition-colors">Resources</Link>
+            <Link href="/teachers" className="hover:text-ink transition-colors">Scholars</Link>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login" className="text-base font-medium text-muted hover:text-ink transition-colors">
               Sign in
             </Link>
-            <Link href="/signup" className="bg-sidebar text-white text-base font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
-              Get started
+            <Link href="/portal" className="bg-sidebar text-white text-base font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
+              Student portal
             </Link>
           </div>
         </div>
@@ -124,27 +185,61 @@ export default function LandingPage() {
 
       {/* Hero */}
       <section className="bg-warm">
-        <div className="max-w-7xl mx-auto px-8 pt-28 pb-32">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2.5 bg-white border border-line rounded-full px-4 py-2 text-sm font-semibold text-muted mb-10">
-              <span className="w-2 h-2 rounded-full bg-green-500" />
-              Now enrolling — Summer 2026 cohort
-            </div>
-            <h1 className="text-6xl md:text-7xl font-bold text-ink leading-[1.05] tracking-tight mb-8">
-              Learn Qur'an and Islamic sciences from{" "}
-              <span className="text-accent">qualified scholars.</span>
-            </h1>
-            <p className="text-muted text-2xl leading-relaxed mb-12 max-w-2xl">
-              Structured live courses in Tajweed, Hifz, Arabic, and Ulum — taught by certified teachers with authentic ijazah chains.
-            </p>
-            <div className="flex flex-wrap items-center gap-5">
-              <Link href="/signup" className="bg-sidebar text-white font-bold px-9 py-4 rounded-2xl text-lg hover:opacity-90 transition-opacity">
-                Start learning today →
-              </Link>
+        <div className="max-w-7xl mx-auto px-8 pt-32 pb-36">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+
+            {/* Left — copy */}
+            <div>
+              <div className="inline-flex items-center gap-2.5 bg-white border border-line rounded-full px-4 py-2 text-sm font-semibold text-muted mb-12">
+                <span className="w-2 h-2 rounded-full bg-green-500" />
+                Now enrolling — Summer 2026 cohort
+              </div>
+              <h1 className="text-6xl md:text-7xl font-bold text-ink leading-[1.05] tracking-tight mb-10">
+                Learn Qur'an and Islamic sciences from{" "}
+                <span className="text-accent">qualified scholars.</span>
+              </h1>
+              <p className="text-muted text-xl leading-relaxed mb-12">
+                Structured live courses in Tajweed, Hifz, Arabic, and Ulum — taught by certified teachers with authentic ijazah chains. Feel the difference in your prayer.
+              </p>
               <a href="#courses" className="text-ink font-semibold text-lg underline underline-offset-4 hover:text-accent transition-colors">
-                Browse courses
+                Browse all courses →
               </a>
             </div>
+
+            {/* Right — booking card */}
+            <div className="bg-white rounded-3xl border border-line shadow-sm p-12">
+              <div className="inline-flex items-center gap-2 bg-warm border border-line rounded-full px-3 py-1.5 text-xs font-semibold text-muted mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                Available this week
+              </div>
+              <h3 className="text-3xl font-bold text-ink mb-3">Book your free 30 min call</h3>
+              <p className="text-muted text-base leading-relaxed mb-10">
+                A one-to-one diagnostic session with a scholar. We assess your level and build your personalised learning pathway — no commitment needed.
+              </p>
+              <ul className="space-y-4 mb-10">
+                {[
+                  "Assess your current recitation level",
+                  "Get matched to the right teacher",
+                  "Receive a personalised learning plan",
+                  "No credit card or commitment required",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-4 text-sm text-ink">
+                    <span className="w-6 h-6 rounded-full bg-accent flex items-center justify-center shrink-0 text-white text-[10px] font-bold">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center bg-sidebar text-white font-bold py-5 rounded-2xl text-base hover:opacity-90 transition-opacity"
+              >
+                Book free call →
+              </a>
+              <p className="text-center text-muted text-xs mt-5">Takes 2 minutes to book</p>
+            </div>
+
           </div>
         </div>
 
@@ -193,27 +288,45 @@ export default function LandingPage() {
               <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Curriculum</p>
               <h2 className="text-4xl md:text-5xl font-bold text-ink">Courses taught by certified scholars.</h2>
             </div>
-            <Link href="/signup" className="hidden md:block text-base font-semibold text-accent hover:underline underline-offset-4">
+            <Link href="/courses" className="hidden md:block text-base font-semibold text-accent hover:underline underline-offset-4">
               View all courses →
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((c) => (
-              <div key={c.title} className="bg-white rounded-2xl p-7 border border-line hover:border-accent hover:shadow-md transition-all group cursor-pointer">
-                <div className="flex items-start gap-5">
-                  <div className="w-14 h-14 rounded-2xl bg-sand flex items-center justify-center shrink-0">
-                    <span className="text-ink font-bold text-lg" dir="rtl">{c.icon}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-ink text-lg leading-snug mb-1">{c.title}</h3>
-                    <p className="text-muted text-sm mb-4">{c.level} · {c.teacher}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-accent bg-accent/10 px-3 py-1 rounded-full uppercase tracking-wide">
-                        {c.category}
-                      </span>
-                      <span className="text-muted text-sm">{c.students} students</span>
+
+          <div className="space-y-14">
+            {courseCategories.map((cat) => (
+              <div key={cat.label}>
+                <div className="flex items-center gap-3 mb-6">
+                  <span className={`text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border ${cat.color} ${cat.badge}`}>
+                    {cat.label}
+                  </span>
+                  <div className="flex-1 h-px bg-line" />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {cat.courses.map((c) => (
+                    <div key={c.title + c.subtitle} className="bg-white rounded-2xl p-7 border border-line hover:border-accent hover:shadow-md transition-all flex flex-col">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="w-12 h-12 rounded-xl bg-sand flex items-center justify-center shrink-0">
+                          <span className="text-ink font-bold text-base" dir="rtl">{c.icon}</span>
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-ink text-xl leading-snug">{c.title}</h3>
+                          <p className={`text-xs font-bold uppercase tracking-wide mt-1 ${cat.badge} px-2 py-0.5 rounded-full inline-block`}>{c.subtitle}</p>
+                        </div>
+                      </div>
+                      <p className="text-muted text-sm leading-relaxed mb-4 flex-1">{c.desc}</p>
+                      <div className="flex items-center justify-between pt-4 border-t border-line mb-4">
+                        <span className="text-muted text-sm">{c.level} · {c.students} students</span>
+                        <span className="text-ink font-bold text-base">{c.price}</span>
+                      </div>
+                      <Link
+                        href={`/courses/${c.slug}`}
+                        className="block text-center bg-sidebar text-white font-semibold text-sm py-3 rounded-xl hover:opacity-90 transition-opacity"
+                      >
+                        View course →
+                      </Link>
                     </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -247,61 +360,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="py-28 border-b border-line bg-warm">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Pricing</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-ink mb-4">Simple, transparent pricing.</h2>
-            <p className="text-muted text-lg">No contracts. Cancel anytime.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {plans.map((p) => (
-              <div
-                key={p.name}
-                className={`rounded-2xl p-9 border ${
-                  p.highlight
-                    ? "bg-sidebar border-sidebar"
-                    : "bg-white border-line"
-                }`}
-              >
-                {p.highlight && (
-                  <span className="inline-block bg-accent text-sidebar text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-5">
-                    Most popular
-                  </span>
-                )}
-                <h3 className={`font-bold text-2xl mb-2 ${p.highlight ? "text-white" : "text-ink"}`}>
-                  {p.name}
-                </h3>
-                <p className={`text-base mb-6 ${p.highlight ? "text-white/50" : "text-muted"}`}>{p.desc}</p>
-                <div className="mb-8">
-                  <span className={`text-5xl font-bold ${p.highlight ? "text-white" : "text-ink"}`}>{p.price}</span>
-                  <span className={`text-base ml-1.5 ${p.highlight ? "text-white/40" : "text-muted"}`}>{p.period}</span>
-                </div>
-                <ul className="space-y-4 mb-9">
-                  {p.features.map((f) => (
-                    <li key={f} className={`flex items-start gap-3 text-base ${p.highlight ? "text-white/80" : "text-ink"}`}>
-                      <span className="mt-0.5 shrink-0 text-accent font-bold">✓</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/signup"
-                  className={`block w-full text-center font-bold py-4 rounded-xl text-base transition-opacity hover:opacity-90 ${
-                    p.highlight
-                      ? "bg-accent text-sidebar"
-                      : "bg-sidebar text-white"
-                  }`}
-                >
-                  {p.cta}
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
       <section className="bg-sidebar py-28">
         <div className="max-w-4xl mx-auto px-8 text-center">
@@ -312,12 +370,17 @@ export default function LandingPage() {
             Begin your path to knowledge.
           </h2>
           <p className="text-white/50 mb-12 text-xl">
-            Join 3,400+ students learning Qur'an and Islamic sciences online.
+            Start with a free diagnostic call — we'll assess your level and match you to the right course and teacher.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5">
-            <Link href="/signup" className="bg-accent text-sidebar font-bold px-10 py-4 rounded-2xl text-lg hover:opacity-90 transition-opacity">
-              Create free account
-            </Link>
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-accent text-sidebar font-bold px-10 py-4 rounded-2xl text-lg hover:opacity-90 transition-opacity"
+            >
+              Book free diagnostic call →
+            </a>
             <Link href="/login" className="text-white/60 font-semibold text-lg hover:text-white transition-colors">
               Already have an account →
             </Link>
@@ -343,24 +406,46 @@ export default function LandingPage() {
             <div>
               <p className="text-white/40 text-sm font-bold uppercase tracking-widest mb-5">Learn</p>
               <ul className="space-y-3 text-base text-white/50">
-                {["Courses", "Tajweed", "Hifz", "Arabic", "Ulum"].map((l) => (
-                  <li key={l}><a href="#" className="hover:text-white/80 transition-colors">{l}</a></li>
+                {[
+                  { label: "All Courses", href: "/#courses" },
+                  { label: "Tajweed", href: "/courses/tajweed" },
+                  { label: "Hifz", href: "/courses/hifz" },
+                  { label: "Arabic", href: "/courses/arabic" },
+                  { label: "Resources", href: "/resources" },
+                ].map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="hover:text-white/80 transition-colors">{l.label}</Link>
+                  </li>
                 ))}
               </ul>
             </div>
             <div>
               <p className="text-white/40 text-sm font-bold uppercase tracking-widest mb-5">Company</p>
               <ul className="space-y-3 text-base text-white/50">
-                {["About", "Scholars", "Blog", "Careers"].map((l) => (
-                  <li key={l}><a href="#" className="hover:text-white/80 transition-colors">{l}</a></li>
+                {[
+                  { label: "Our Scholars", href: "/teachers" },
+                  { label: "About", href: "#" },
+                  { label: "Blog", href: "#" },
+                  { label: "Careers", href: "#" },
+                ].map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="hover:text-white/80 transition-colors">{l.label}</Link>
+                  </li>
                 ))}
               </ul>
             </div>
             <div>
               <p className="text-white/40 text-sm font-bold uppercase tracking-widest mb-5">Support</p>
               <ul className="space-y-3 text-base text-white/50">
-                {["Help centre", "Contact", "Privacy", "Terms"].map((l) => (
-                  <li key={l}><a href="#" className="hover:text-white/80 transition-colors">{l}</a></li>
+                {[
+                  { label: "Help centre", href: "#" },
+                  { label: "Contact", href: "#" },
+                  { label: "Privacy", href: "#" },
+                  { label: "Terms", href: "#" },
+                ].map((l) => (
+                  <li key={l.label}>
+                    <a href={l.href} className="hover:text-white/80 transition-colors">{l.label}</a>
+                  </li>
                 ))}
               </ul>
             </div>

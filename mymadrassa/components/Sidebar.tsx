@@ -4,6 +4,7 @@ interface NavItem {
   label: string;
   href: string;
   active?: boolean;
+  icon?: string;
 }
 
 interface NavSection {
@@ -50,10 +51,10 @@ export default function Sidebar({ role, sections, user }: SidebarProps) {
                     }`}
                   >
                     <span
-                      className={`w-5 h-5 rounded flex items-center justify-center shrink-0 ${
-                        item.active ? "bg-accent" : "bg-white/10"
+                      className={`w-5 h-5 rounded flex items-center justify-center shrink-0 text-[11px] ${
+                        item.active ? "bg-accent text-sidebar" : "bg-white/10 text-white/50"
                       }`}
-                    />
+                    >{item.icon ?? ""}</span>
                     {item.label}
                   </Link>
                 </li>
