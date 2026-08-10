@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 const BOOKING_URL = "https://calendly.com/mymadrassa";
 
@@ -30,28 +30,7 @@ export default function TeachersPage() {
   return (
     <div className="min-h-screen bg-white text-ink">
 
-      {/* Nav */}
-      <nav className="border-b border-line sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sidebar flex items-center justify-center">
-              <span className="text-accent font-bold text-lg">م</span>
-            </div>
-            <span className="font-bold text-ink text-xl tracking-tight">MyMadrassa</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-10 text-base text-muted font-medium">
-            <Link href="/#courses" className="hover:text-ink transition-colors">Courses</Link>
-            <Link href="/resources" className="hover:text-ink transition-colors">Resources</Link>
-            <Link href="/teachers" className="text-ink font-semibold">Scholars</Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-base font-medium text-muted hover:text-ink transition-colors">Sign in</Link>
-            <Link href="/portal" className="bg-sidebar text-white text-base font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
-              Student portal
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Header */}
       <section className="bg-warm border-b border-line">
@@ -113,7 +92,7 @@ export default function TeachersPage() {
         <div className="max-w-2xl mx-auto px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Get matched to a teacher.</h2>
           <p className="text-white/50 text-lg mb-10">
-            Book a free 30 min diagnostic call and we'll pair you with the right scholar for your course and level.
+            Book a free 30 min diagnostic call and we&apos;ll pair you with the right scholar for your course and level.
           </p>
           <a
             href={BOOKING_URL}

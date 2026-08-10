@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 import { courses } from "@/lib/courses";
 
 const BOOKING_URL = "https://calendly.com/mymadrassa";
@@ -34,9 +35,6 @@ const faqs = [
   },
 ];
 
-const categoryLabel = (category: string) =>
-  category === "quran" ? "Qur'an" : "Arabic";
-
 const categoryBadge = (category: string) =>
   category === "quran"
     ? "text-emerald-700 bg-emerald-100 border-emerald-200"
@@ -46,28 +44,7 @@ export default function CoursesPage() {
   return (
     <div className="min-h-screen bg-white text-ink">
 
-      {/* Nav */}
-      <nav className="border-b border-line sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sidebar flex items-center justify-center">
-              <span className="text-accent font-bold text-lg">م</span>
-            </div>
-            <span className="font-bold text-ink text-xl tracking-tight">MyMadrassa</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-10 text-base text-muted font-medium">
-            <Link href="/courses" className="text-ink font-semibold">Courses</Link>
-            <Link href="/resources" className="hover:text-ink transition-colors">Resources</Link>
-            <Link href="/teachers" className="hover:text-ink transition-colors">Scholars</Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-base font-medium text-muted hover:text-ink transition-colors">Sign in</Link>
-            <Link href="/portal" className="bg-sidebar text-white text-base font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
-              Student portal
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <section className="bg-warm border-b border-line">
@@ -78,7 +55,7 @@ export default function CoursesPage() {
               Every course.<br />One-to-one.
             </h1>
             <p className="text-muted text-xl leading-relaxed mb-10 max-w-xl">
-              Structured programmes in Tajweed, Hifz, Arabic, Ijaazah, and the Sciences of the Qur'an — each taught individually by a qualified scholar with an authentic ijazah chain.
+              Structured programmes in Tajweed, Hifz, Arabic, Ijaazah, and the Sciences of the Qur&apos;an — each taught individually by a qualified scholar with an authentic ijazah chain.
             </p>
             <div className="flex flex-wrap items-center gap-5">
               <a
@@ -104,7 +81,7 @@ export default function CoursesPage() {
         <div className="mb-16">
           <div className="flex items-center gap-4 mb-10">
             <span className="text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border text-emerald-700 bg-emerald-100 border-emerald-200">
-              Qur'an
+              Qur&apos;an
             </span>
             <div className="flex-1 h-px bg-line" />
           </div>
