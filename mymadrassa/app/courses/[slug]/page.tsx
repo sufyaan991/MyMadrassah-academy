@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Navbar from "@/components/Navbar";
 import { getCourseBySlug, courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
 
@@ -26,33 +26,7 @@ export default async function CoursePage({
   return (
     <div className="min-h-screen bg-white text-ink">
 
-      {/* Nav */}
-      <nav className="border-b border-line sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sidebar flex items-center justify-center">
-              <span className="text-accent font-bold text-lg">م</span>
-            </div>
-            <span className="font-bold text-ink text-xl tracking-tight">MyMadrassa</span>
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/#courses"
-              className="text-base font-medium text-muted hover:text-ink transition-colors"
-            >
-              ← All courses
-            </Link>
-            <a
-              href={TYPEFORM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-sidebar text-white text-base font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity"
-            >
-              Enrol now →
-            </a>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <section className="bg-warm border-b border-line">
@@ -184,7 +158,7 @@ export default async function CoursePage({
           {/* Sidebar — what's included */}
           <div>
             <div className="bg-warm rounded-2xl border border-line p-8 sticky top-28">
-              <h3 className="font-bold text-ink text-lg mb-7">What's included</h3>
+              <h3 className="font-bold text-ink text-lg mb-7">What&apos;s included</h3>
               <ul className="space-y-5">
                 {course.included.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-ink">
@@ -204,7 +178,7 @@ export default async function CoursePage({
         <div className="max-w-2xl mx-auto px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to begin?</h2>
           <p className="text-white/50 text-lg mb-12">
-            Start with a free 30 min diagnostic call — we'll assess your level and confirm this is the right course for you.
+            Start with a free 30 min diagnostic call — we&apos;ll assess your level and confirm this is the right course for you.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5">
             <a

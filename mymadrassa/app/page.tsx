@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 // TODO: Replace with your actual booking URL
 const BOOKING_URL = "https://calendly.com/mymadrassa";
@@ -158,30 +159,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-ink">
 
-      {/* Nav */}
-      <nav className="border-b border-line sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sidebar flex items-center justify-center">
-              <span className="text-accent font-bold text-lg">م</span>
-            </div>
-            <span className="font-bold text-ink text-xl tracking-tight">MyMadrassa</span>
-          </div>
-          <div className="hidden md:flex items-center gap-10 text-base text-muted font-medium">
-            <Link href="/courses" className="hover:text-ink transition-colors">Courses</Link>
-            <Link href="/resources" className="hover:text-ink transition-colors">Resources</Link>
-            <Link href="/teachers" className="hover:text-ink transition-colors">Scholars</Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-base font-medium text-muted hover:text-ink transition-colors">
-              Sign in
-            </Link>
-            <Link href="/portal" className="bg-sidebar text-white text-base font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
-              Student portal
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <section className="bg-warm">
@@ -195,15 +173,15 @@ export default function LandingPage() {
                 Now enrolling — Summer 2026 cohort
               </div>
               <h1 className="text-6xl md:text-7xl font-bold text-ink leading-[1.05] tracking-tight mb-10">
-                Learn Qur'an and Islamic sciences from{" "}
+                Learn Qur&apos;an and Islamic sciences from{" "}
                 <span className="text-accent">qualified scholars.</span>
               </h1>
               <p className="text-muted text-xl leading-relaxed mb-12">
                 Structured live courses in Tajweed, Hifz, Arabic, and Ulum — taught by certified teachers with authentic ijazah chains. Feel the difference in your prayer.
               </p>
-              <a href="#courses" className="text-ink font-semibold text-lg underline underline-offset-4 hover:text-accent transition-colors">
+              <Link href="/courses" className="text-ink font-semibold text-lg underline underline-offset-4 hover:text-accent transition-colors">
                 Browse all courses →
-              </a>
+              </Link>
             </div>
 
             {/* Right — booking card */}
@@ -344,7 +322,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((t) => (
               <div key={t.name} className="bg-warm rounded-2xl p-8 border border-line">
-                <p className="text-ink text-lg leading-relaxed mb-8">"{t.quote}"</p>
+                <p className="text-ink text-lg leading-relaxed mb-8">&quot;{t.quote}&quot;</p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-sidebar flex items-center justify-center text-white text-sm font-bold shrink-0">
                     {t.initials}
@@ -370,7 +348,7 @@ export default function LandingPage() {
             Begin your path to knowledge.
           </h2>
           <p className="text-white/50 mb-12 text-xl">
-            Start with a free diagnostic call — we'll assess your level and match you to the right course and teacher.
+            Start with a free diagnostic call — we&apos;ll assess your level and match you to the right course and teacher.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5">
             <a
@@ -407,7 +385,7 @@ export default function LandingPage() {
               <p className="text-white/40 text-sm font-bold uppercase tracking-widest mb-5">Learn</p>
               <ul className="space-y-3 text-base text-white/50">
                 {[
-                  { label: "All Courses", href: "/#courses" },
+                  { label: "All Courses", href: "/courses" },
                   { label: "Tajweed", href: "/courses/tajweed" },
                   { label: "Hifz", href: "/courses/hifz" },
                   { label: "Arabic", href: "/courses/arabic" },
