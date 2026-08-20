@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
-
-const BOOKING_URL = "https://calendly.com/mymadrassa";
+import Link from "next/link";
 
 const scholars = [
   {
@@ -94,14 +93,12 @@ export default function TeachersPage() {
           <p className="text-white/50 text-lg mb-10">
             Book a free 30 min diagnostic call and we&apos;ll pair you with the right scholar for your course and level.
           </p>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/book-free-call"
             className="inline-block bg-accent text-sidebar font-bold px-10 py-4 rounded-2xl text-base hover:opacity-90 transition-opacity"
           >
             Book free call →
-          </a>
+          </Link>
         </div>
       </section>
 

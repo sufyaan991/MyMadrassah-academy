@@ -1,9 +1,6 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
-// TODO: Replace with your actual booking URL
-const BOOKING_URL = "https://calendly.com/mymadrassa";
-
 const features = [
   {
     icon: "📞",
@@ -207,14 +204,12 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/book-free-call"
                 className="block text-center bg-sidebar text-white font-bold py-5 rounded-2xl text-base hover:opacity-90 transition-opacity"
               >
                 Book free call →
-              </a>
+              </Link>
               <p className="text-center text-muted text-xs mt-5">Takes 2 minutes to book</p>
             </div>
 
@@ -351,14 +346,12 @@ export default function LandingPage() {
             Start with a free diagnostic call — we&apos;ll assess your level and match you to the right course and teacher.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/book-free-call"
               className="bg-accent text-sidebar font-bold px-10 py-4 rounded-2xl text-lg hover:opacity-90 transition-opacity"
             >
               Book free diagnostic call →
-            </a>
+            </Link>
             <Link href="/login" className="text-white/60 font-semibold text-lg hover:text-white transition-colors">
               Already have an account →
             </Link>
