@@ -1,34 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
 
-type IntakeAnswers = {
-  fullName: string;
-  email: string;
-  phone: string;
-  studentAge: string;
-  level: string;
-  goals: string;
-  gender: string;
-};
-
-type NotifyRequest = {
-  answers?: Partial<IntakeAnswers>;
-  calendlyPayload?: {
-    event?: {
-      uri?: string;
-    };
-    invitee?: {
-      uri?: string;
-    };
+type CalendlyWebhookPayload = {
+  event?: string;
+  created_at?: string;
+  created_by?: string;
+  payload?: {
+    uri?: string;
+    name?: string;
+    email?: string;
+    status?: string;
+    event?: string;
+    scheduled_event?: string;
+    cancel_url?: string;
+    reschedule_url?: string;
   };
 };
 
-type CalendlyDetails = {
-  eventName: string;
-  startTime: string;
-  endTime: string;
-  location: string;
-  inviteeName: string;
-  inviteeEmail: string;
+type CalendlyInviteeResponse = {
+  resource?: {
+    uri?: string;
+    name?: string;
+    email?: string;
+    status?: string;
+    timezone?: string;
+    created_at?: string;
+    updated_at?: string;
+    questions_and_answers?: Array<{
+      question?: string;
+      answer?: string;
+    }>;
+    event?: string;
+  };
+};
+
+type CalendlyEventResponse = {
+  resource?: {
+    name?: string;
+    status?: string;
+    start_time?: string;
+    end_time?: string;
+    event_type?: string;
+    location?: {
+      type?: string;
+      location?: string;
+      join_url?: string;
+    };
+  };
 };
 
 function escapeHtml(input: string) {
@@ -40,24 +57,27 @@ function escapeHtml(input: string) {
     .replaceAll("'", "&#39;");
 }
 
-function requiredString(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
-}
+function formatDateTime(iso?: string) {
+  if (!iso) {
+    return "Not available";
+  }
 
-function formatTimeWindow(startIso: string, endIso: string) {
-  const start = new Date(startIso);
-  const end = new Date(endIso);
+  const date = new Date(iso);
 
-  const formatter = new Intl.DateTimeFormat("en-GB", {
+  if (Number.isNaN(date.getTime())) {
+    return "Not available";
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
     dateStyle: "full",
     timeStyle: "short",
-  });
-
-  return `${formatter.format(start)} - ${formatter.format(end)}`;
+    timeZone: "Europe/London",
+  }).format(date);
 }
 
-async function fetchCalendlyResource<T>(uri: string, token: string) {
+async function calendlyGet<T>(uri: string, token: string): Promise<T> {
   const response = await fetch(uri, {
+    method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -66,108 +86,171 @@ async function fetchCalendlyResource<T>(uri: string, token: string) {
   });
 
   if (!response.ok) {
-    const message = await response.text();
-    throw new Error(`Calendly API error: ${message}`);
+    const text = await response.text();
+
+    throw new Error(
+      `Calendly API request failed (${response.status}): ${text}`,
+    );
   }
 
   return (await response.json()) as T;
 }
 
-async function getCalendlyDetails(
-  eventUri: string | undefined,
-  inviteeUri: string | undefined,
-): Promise<CalendlyDetails | null> {
-  const token = process.env.CALENDLY_API_TOKEN;
-  if (!token || !eventUri) {
-    return null;
-  }
+function findAnswer(
+  answers: Array<{ question?: string; answer?: string }>,
+  possibleQuestions: string[],
+) {
+  const match = answers.find((item) => {
+    const question = item.question?.trim().toLowerCase() ?? "";
 
-  type CalendlyEventResponse = {
-    resource?: {
-      name?: string;
-      start_time?: string;
-      end_time?: string;
-      location?: {
-        join_url?: string;
-        location?: string;
-        type?: string;
-      };
-    };
-  };
+    return possibleQuestions.some((possible) =>
+      question.includes(possible.toLowerCase()),
+    );
+  });
 
-  type CalendlyInviteeResponse = {
-    resource?: {
-      name?: string;
-      email?: string;
-    };
-  };
-
-  const eventData = await fetchCalendlyResource<CalendlyEventResponse>(eventUri, token);
-  const inviteeData = inviteeUri
-    ? await fetchCalendlyResource<CalendlyInviteeResponse>(inviteeUri, token)
-    : null;
-
-  const startTime = eventData.resource?.start_time;
-  const endTime = eventData.resource?.end_time;
-
-  if (!startTime || !endTime) {
-    return null;
-  }
-
-  return {
-    eventName: eventData.resource?.name ?? "Free diagnostic call",
-    startTime,
-    endTime,
-    location:
-      eventData.resource?.location?.join_url ||
-      eventData.resource?.location?.location ||
-      eventData.resource?.location?.type ||
-      "Not provided",
-    inviteeName: inviteeData?.resource?.name ?? "Not provided",
-    inviteeEmail: inviteeData?.resource?.email ?? "Not provided",
-  };
+  return match?.answer?.trim() || "Not provided";
 }
 
 async function sendAdminEmail({
-  adminInbox,
-  fromEmail,
-  answers,
-  calendlyPayload,
-  calendlyDetails,
+  invitee,
+  event,
+  webhookPayload,
 }: {
-  adminInbox: string;
-  fromEmail: string;
-  answers: IntakeAnswers;
-  calendlyPayload?: NotifyRequest["calendlyPayload"];
-  calendlyDetails: CalendlyDetails | null;
+  invitee: CalendlyInviteeResponse["resource"];
+  event: CalendlyEventResponse["resource"];
+  webhookPayload: CalendlyWebhookPayload;
 }) {
   const resendApiKey = process.env.RESEND_API_KEY;
+  const adminInbox = process.env.ADMIN_INBOX_EMAIL;
+  const fromEmail = process.env.BOOKING_FROM_EMAIL;
+
   if (!resendApiKey) {
-    throw new Error("Missing RESEND_API_KEY. Cannot send admin notification email.");
+    throw new Error("Missing RESEND_API_KEY.");
   }
 
-  const slotSummary = calendlyDetails
-    ? formatTimeWindow(calendlyDetails.startTime, calendlyDetails.endTime)
-    : "Slot details unavailable (set CALENDLY_API_TOKEN to include exact slot time).";
+  if (!adminInbox) {
+    throw new Error("Missing ADMIN_INBOX_EMAIL.");
+  }
+
+  if (!fromEmail) {
+    throw new Error("Missing BOOKING_FROM_EMAIL.");
+  }
+
+  const questions = invitee?.questions_and_answers ?? [];
+
+  const phone = findAnswer(questions, [
+    "phone",
+    "phone number",
+  ]);
+
+  const studentAge = findAnswer(questions, [
+    "student age",
+    "age",
+  ]);
+
+  const level = findAnswer(questions, [
+    "current level",
+    "level",
+  ]);
+
+  const goals = findAnswer(questions, [
+    "main learning goals",
+    "learning goals",
+    "goals",
+  ]);
+
+  const gender = findAnswer(questions, [
+    "gender",
+  ]);
+
+  const slotStart = formatDateTime(event?.start_time);
+  const slotEnd = formatDateTime(event?.end_time);
 
   const html = `
-    <h2>New Free Call Booking</h2>
-    <p><strong>Booked slot:</strong> ${escapeHtml(slotSummary)}</p>
-    <p><strong>Event type:</strong> ${escapeHtml(calendlyDetails?.eventName ?? "Not available")}</p>
-    <p><strong>Meeting location:</strong> ${escapeHtml(calendlyDetails?.location ?? "Not available")}</p>
-    <p><strong>Invitee from Calendly:</strong> ${escapeHtml(calendlyDetails?.inviteeName ?? "Not available")} (${escapeHtml(calendlyDetails?.inviteeEmail ?? "Not available")})</p>
+    <h2>New Free Diagnostic Call Booking</h2>
+
+    <h3>Booking</h3>
+
+    <p>
+      <strong>Event:</strong>
+      ${escapeHtml(event?.name ?? "Free diagnostic call")}
+    </p>
+
+    <p>
+      <strong>Date:</strong>
+      ${escapeHtml(slotStart)}
+    </p>
+
+    <p>
+      <strong>End:</strong>
+      ${escapeHtml(slotEnd)}
+    </p>
+
+    <p>
+      <strong>Location:</strong>
+      ${escapeHtml(
+        event?.location?.join_url ||
+          event?.location?.location ||
+          event?.location?.type ||
+          "Not provided",
+      )}
+    </p>
+
     <hr />
-    <h3>Questionnaire answers</h3>
-    <p><strong>Full name:</strong> ${escapeHtml(answers.fullName)}</p>
-    <p><strong>Email:</strong> ${escapeHtml(answers.email)}</p>
-    <p><strong>Phone number:</strong> ${escapeHtml(answers.phone)}</p>
-    <p><strong>Student age:</strong> ${escapeHtml(answers.studentAge)}</p>
-    <p><strong>Current level:</strong> ${escapeHtml(answers.level)}</p>
-    <p><strong>Gender:</strong> ${escapeHtml(answers.gender)}</p>
-    <p><strong>Learning goals:</strong><br/>${escapeHtml(answers.goals)}</p>
+
+    <h3>Student</h3>
+
+    <p>
+      <strong>Full name:</strong>
+      ${escapeHtml(invitee?.name ?? "Not provided")}
+    </p>
+
+    <p>
+      <strong>Email:</strong>
+      ${escapeHtml(invitee?.email ?? "Not provided")}
+    </p>
+
+    <p>
+      <strong>Phone:</strong>
+      ${escapeHtml(phone)}
+    </p>
+
+    <p>
+      <strong>Student age:</strong>
+      ${escapeHtml(studentAge)}
+    </p>
+
+    <p>
+      <strong>Current level:</strong>
+      ${escapeHtml(level)}
+    </p>
+
+    <p>
+      <strong>Gender:</strong>
+      ${escapeHtml(gender)}
+    </p>
+
+    <p>
+      <strong>Learning goals:</strong><br />
+      ${escapeHtml(goals)}
+    </p>
+
     <hr />
-    <p><strong>Calendly event URI:</strong> ${escapeHtml(calendlyPayload?.event?.uri ?? "Not provided")}</p>
-    <p><strong>Calendly invitee URI:</strong> ${escapeHtml(calendlyPayload?.invitee?.uri ?? "Not provided")}</p>
+
+    <p>
+      <strong>Calendly invitee:</strong>
+      ${escapeHtml(invitee?.uri ?? "Not available")}
+    </p>
+
+    <p>
+      <strong>Calendly event:</strong>
+      ${escapeHtml(event?.event_type ?? "Not available")}
+    </p>
+
+    <p>
+      <strong>Webhook event:</strong>
+      ${escapeHtml(webhookPayload.event ?? "Not available")}
+    </p>
   `;
 
   const response = await fetch("https://api.resend.com/emails", {
@@ -180,87 +263,115 @@ async function sendAdminEmail({
       from: fromEmail,
       to: [adminInbox],
       subject: "New booking: Free diagnostic call",
-      reply_to: answers.email,
+      reply_to: invitee?.email || undefined,
       html,
     }),
   });
 
   if (!response.ok) {
-    const message = await response.text();
-    throw new Error(`Failed to send admin email: ${message}`);
+    const text = await response.text();
+
+    throw new Error(
+      `Resend failed (${response.status}): ${text}`,
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = (await request.json()) as NotifyRequest;
-    const answers = body.answers;
+  console.log("🔥 CALENDLY WEBHOOK RECEIVED");
 
-    if (
-      !answers ||
-      !requiredString(answers.fullName) ||
-      !requiredString(answers.email) ||
-      !requiredString(answers.phone) ||
-      !requiredString(answers.studentAge) ||
-      !requiredString(answers.level) ||
-      !requiredString(answers.goals) ||
-      !requiredString(answers.gender)
-    ) {
+  try {
+    const body =
+      (await request.json()) as CalendlyWebhookPayload;
+
+    console.log("Calendly webhook event:", body.event);
+    console.log("Calendly payload:", body.payload);
+
+    if (body.event !== "invitee.created") {
+      console.log("Ignoring webhook event:", body.event);
+
+      return NextResponse.json({
+        ok: true,
+        ignored: true,
+      });
+    }
+
+    const inviteeUri = body.payload?.uri;
+
+    if (!inviteeUri) {
+      console.error("No invitee URI in Calendly webhook.");
+
       return NextResponse.json(
-        { error: "Missing required questionnaire fields." },
+        {
+          error: "Calendly webhook did not contain an invitee URI.",
+        },
         { status: 400 },
       );
     }
 
-    const adminInbox = process.env.ADMIN_INBOX_EMAIL;
-    const fromEmail = process.env.BOOKING_FROM_EMAIL;
-    console.log("ADMIN INBOX:", adminInbox);
-    console.log("FROM EMAIL:", fromEmail);
+    const token = process.env.CALENDLY_API_TOKEN;
 
-    if (!adminInbox || !fromEmail) {
+    if (!token) {
+      console.error("CALENDLY_API_TOKEN is missing.");
+
       return NextResponse.json(
         {
-          error:
-            "Missing ADMIN_INBOX_EMAIL or BOOKING_FROM_EMAIL environment variable.",
+          error: "CALENDLY_API_TOKEN is not configured.",
         },
         { status: 500 },
       );
     }
 
-    let calendlyDetails: CalendlyDetails | null = null;
-    try {
-      calendlyDetails = await getCalendlyDetails(
-        body.calendlyPayload?.event?.uri,
-        body.calendlyPayload?.invitee?.uri,
+    console.log("Fetching invitee:", inviteeUri);
+
+    const inviteeData =
+      await calendlyGet<CalendlyInviteeResponse>(
+        inviteeUri,
+        token,
       );
-    } catch {
-      calendlyDetails = null;
+
+    const invitee = inviteeData.resource;
+
+    if (!invitee) {
+      throw new Error("Calendly returned no invitee resource.");
+    }
+
+    console.log("Invitee:", invitee.name, invitee.email);
+
+    const eventUri = invitee.event;
+
+    let eventData: CalendlyEventResponse = {};
+
+    if (eventUri) {
+      console.log("Fetching event:", eventUri);
+
+      eventData =
+        await calendlyGet<CalendlyEventResponse>(
+          eventUri,
+          token,
+        );
     }
 
     await sendAdminEmail({
-      adminInbox,
-      fromEmail,
-      answers: {
-        fullName: answers.fullName,
-        email: answers.email,
-        phone: answers.phone,
-        studentAge: answers.studentAge,
-        level: answers.level,
-        goals: answers.goals,
-        gender: answers.gender,
-      },
-      calendlyPayload: body.calendlyPayload,
-      calendlyDetails,
+      invitee,
+      event: eventData.resource,
+      webhookPayload: body,
     });
 
-    return NextResponse.json({ ok: true });
+    console.log("✅ Admin email sent successfully.");
+
+    return NextResponse.json({
+      ok: true,
+    });
   } catch (error) {
+    console.error("❌ Calendly webhook error:", error);
+
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
-            : "Unexpected error while sending booking notification.",
+            : "Unexpected webhook error.",
       },
       { status: 500 },
     );
