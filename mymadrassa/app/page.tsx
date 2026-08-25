@@ -47,111 +47,52 @@ const features = [
   },
 ];
 
-const courseCategories = [
+const paths = [
   {
-    label: "Qur'an",
-    color: "bg-emerald-50 border-emerald-200",
-    badge: "text-emerald-700 bg-emerald-100",
-    courses: [
-      {
-        icon: "ق",
-        title: "Qaaida",
-        subtitle: "Arabic Reading Foundation",
-        desc: "The essential starting point. Learn to read Arabic script and Qur'anic text from scratch — no prior knowledge needed.",
-        level: "Beginner",
-        students: 284,
-        price: "£40/mo",
-        slug: "qaaida",
-      },
-      {
-        icon: "ح",
-        title: "Hifz Program",
-        subtitle: "Full Qur'an Memorisation",
-        desc: "Structured memorisation with daily revision, sabqi, manzil, and dedicated teacher accountability.",
-        level: "All levels",
-        students: 189,
-        price: "£50/mo",
-        slug: "hifz",
-      },
-      {
-        icon: "ت",
-        title: "Tajweed",
-        subtitle: "Tuhfatul Atfaal",
-        desc: "Master the foundational rules of Tajweed through the classical Tuhfatul Atfaal text — one-to-one with a certified scholar.",
-        level: "Beginner → Intermediate",
-        students: 312,
-        price: "£40/mo",
-        slug: "tajweed",
-      },
-      {
-        icon: "إ",
-        title: "Ijaazah",
-        subtitle: "Tuhfatul Atfaal & Al-Jazariyyah",
-        desc: "Study the Jazariyyah, perfect your recitation, and receive a formal ijazah with an unbroken sanad to the Prophet ﷺ.",
-        level: "Advanced",
-        students: 94,
-        price: "£60/mo",
-        slug: "ijaazah",
-      },
-      {
-        icon: "ر",
-        title: "Qira'aat",
-        subtitle: "Al-Shaatibiyyah",
-        desc: "Study the seven canonical Qira'aat through Al-Shaatibiyyah with a specialist scholar. The highest level of Qur'anic mastery.",
-        level: "Expert",
-        students: 47,
-        price: "£70/mo",
-        slug: "qiraat",
-      },
-      {
-        icon: "ع",
-        title: "Sciences of the Qur'an",
-        subtitle: "Ulum al-Qur'an",
-        desc: "Revelation history, Tafsir methodology, asbab al-nuzul, abrogation, and the miraculous nature of the Qur'an.",
-        level: "Intermediate",
-        students: 211,
-        price: "£40/mo",
-        slug: "sciences",
-      },
-    ],
+    icon: "ف",
+    title: "One-to-One Mentorship",
+    subtitle: "Private · Fardi",
+    desc: "Ongoing, private sessions billed by the term. Your teacher builds the pace around you.",
+    items: ["Qur'an Mentorship", "Ijaazah", "Qira'aat", "Arabic"],
+    cta: "Register your interest",
   },
   {
-    label: "Arabic",
-    color: "bg-blue-50 border-blue-200",
-    badge: "text-blue-700 bg-blue-100",
-    courses: [
-      {
-        icon: "ع",
-        title: "Arabic",
-        subtitle: "Arabiyya Bayna Yadayk",
-        desc: "Four-book series from complete beginner through to fluency in classical and scholarly Arabic — one-to-one with a qualified teacher.",
-        level: "Beginner → Mastery",
-        students: 693,
-        price: "£50/mo per level",
-        slug: "arabic",
-      },
-    ],
+    icon: "ج",
+    title: "Group Courses",
+    subtitle: "Cohort · Jamaa'i",
+    desc: "Live cohorts with fixed start dates, learning alongside other students.",
+    items: ["Arabic", "al-Jazariyyah", "Tuhfatul Atfaal"],
+    cta: "Register your interest",
   },
 ];
 
 const testimonials = [
   {
-    name: "Fatima Noor",
-    location: "London, UK",
-    initials: "FN",
-    quote: "I completed Al-Jazariyyah in 6 months. The live sessions with Ustadh Ahmad are unlike anything I've experienced online.",
+    name: "Redwan A.",
+    role: "Busy Entrepreneur & Student",
+    location: "Tilburg, Netherlands",
+    flag: "🇳🇱",
+    videoId: "f8hrLlbwUfw",
+    rating: 5,
+    quote: "I was doing a masters degree while launching a startup — my schedule was chaos. I still managed one session a week and the progress was real. The teacher adapted fully to my level and pace. Six months later I am reading Quran with tajweed. No excuses left now.",
   },
   {
-    name: "Omar Aziz",
-    location: "Toronto, Canada",
-    initials: "OA",
-    quote: "The structured curriculum is exactly what I needed. I went from zero Tajweed knowledge to completing Tuhfatul Atfaal.",
+    name: "Hussain M.",
+    role: "Content Creator, 27",
+    location: "United Kingdom",
+    flag: "🇬🇧",
+    videoId: "3b4z_ryM9pU",
+    rating: 5,
+    quote: "I started my madrassa with so many mistakes in my recitation, but now I have not only improved, I also teach students and benefit others the same way Sheikh Yaseen benefitted me. The one to one structure and studying with MyMadrassa made all the difference.",
   },
   {
-    name: "Zaynab Khan",
-    location: "Dubai, UAE",
-    initials: "ZK",
-    quote: "Recordings mean I never miss a lesson even with my busy schedule. The progress tracking keeps me motivated.",
+    name: "John Baker",
+    role: "Revert, Student at Umm al-Qura University, Makkah",
+    location: "Makkah, Saudi Arabia",
+    flag: "🇸🇦",
+    videoId: "9VyMSVRhywE",
+    rating: 5,
+    quote: "I took my shahada two years ago but never learned to pronounce correctly. I felt lost in every salah. Ustadh started me from absolute zero, the sounds, vowels, everything. Within 5 months I improved immensely. As a revert this has changed my entire relationship with Allah.",
   },
 ];
 
@@ -258,53 +199,42 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Courses */}
+      {/* Study formats */}
       <section id="courses" className="py-28 border-b border-line bg-warm">
         <div className="max-w-7xl mx-auto px-8">
-          <div className="flex items-end justify-between mb-14">
-            <div>
-              <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Curriculum</p>
-              <h2 className="text-4xl md:text-5xl font-bold text-ink">Courses taught by certified scholars.</h2>
-            </div>
-            <Link href="/courses" className="hidden md:block text-base font-semibold text-accent hover:underline underline-offset-4">
-              View all courses →
-            </Link>
+          <div className="mb-14">
+            <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Study formats</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-ink mb-5">Two ways to study with us.</h2>
+            <p className="text-muted text-lg leading-relaxed max-w-2xl">
+              Go private for a pace built entirely around you, or join a live cohort with other students. Nothing here is pre-recorded — every seat is a real class.
+            </p>
           </div>
-
-          <div className="space-y-14">
-            {courseCategories.map((cat) => (
-              <div key={cat.label}>
-                <div className="flex items-center gap-3 mb-6">
-                  <span className={`text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border ${cat.color} ${cat.badge}`}>
-                    {cat.label}
-                  </span>
-                  <div className="flex-1 h-px bg-line" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {paths.map((p) => (
+              <div key={p.title} className="bg-white border border-line p-8 flex flex-col">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-12 h-12 bg-sand flex items-center justify-center shrink-0">
+                    <span className="text-ink font-bold text-base" dir="rtl">{p.icon}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-ink text-xl leading-snug">{p.title}</h3>
+                    <p className="text-xs font-bold uppercase tracking-wide text-muted mt-1">{p.subtitle}</p>
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {cat.courses.map((c) => (
-                    <div key={c.title + c.subtitle} className="bg-white rounded-2xl p-7 border border-line hover:border-accent hover:shadow-md transition-all flex flex-col">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-xl bg-sand flex items-center justify-center shrink-0">
-                          <span className="text-ink font-bold text-base" dir="rtl">{c.icon}</span>
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-ink text-xl leading-snug">{c.title}</h3>
-                          <p className={`text-xs font-bold uppercase tracking-wide mt-1 ${cat.badge} px-2 py-0.5 rounded-full inline-block`}>{c.subtitle}</p>
-                        </div>
-                      </div>
-                      <p className="text-muted text-sm leading-relaxed mb-4 flex-1">{c.desc}</p>
-                      <div className="flex items-center justify-between pt-4 border-t border-line mb-4">
-                        <span className="text-muted text-sm">{c.level} · {c.students} students</span>
-                        <span className="text-ink font-bold text-base">{c.price}</span>
-                      </div>
-                      <Link
-                        href={`/courses/${c.slug}`}
-                        className="block text-center bg-sidebar text-white font-semibold text-sm py-3 rounded-xl hover:opacity-90 transition-opacity"
-                      >
-                        View course →
-                      </Link>
+                <p className="text-muted text-sm leading-relaxed mb-5">{p.desc}</p>
+                <div className="mb-5">
+                  {p.items.map((item) => (
+                    <div key={item} className="flex items-center gap-3 py-3 text-ink text-sm font-semibold">
+                      <span className="w-1.5 h-1.5 bg-accent shrink-0" />
+                      {item}
                     </div>
                   ))}
+                </div>
+                <div className="flex items-center justify-between pt-4 border-t border-line mt-auto">
+                  <span className="text-muted text-sm">Coming soon</span>
+                  <button className="bg-sidebar text-white font-semibold text-sm px-5 py-2.5 hover:opacity-90 transition-opacity">
+                    {p.cta}
+                  </button>
                 </div>
               </div>
             ))}
@@ -313,23 +243,37 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-28 border-b border-line">
+      <section className="py-28 border-b border-line bg-warm">
         <div className="max-w-7xl mx-auto px-8">
           <div className="mb-14">
             <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Testimonials</p>
             <h2 className="text-4xl md:text-5xl font-bold text-ink">Trusted by thousands of students.</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-8">
             {testimonials.map((t) => (
-              <div key={t.name} className="bg-warm rounded-2xl p-8 border border-line">
-                <p className="text-ink text-lg leading-relaxed mb-8">&quot;{t.quote}&quot;</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-sidebar flex items-center justify-center text-white text-sm font-bold shrink-0">
-                    {t.initials}
-                  </div>
+              <div key={t.name} className="bg-white border border-line overflow-hidden rounded-[28px] shadow-sm hover:shadow-md transition-shadow">
+                <div className="grid grid-cols-1 sm:grid-cols-[280px_1fr]">
                   <div>
-                    <p className="text-ink text-base font-bold">{t.name}</p>
-                    <p className="text-muted text-sm">{t.location}</p>
+                    <div className="aspect-[9/16] bg-ink m-3 rounded-2xl overflow-hidden sm:mb-0">
+                      <iframe
+                        className="w-full h-full"
+                        src={`https://www.youtube.com/embed/${t.videoId}?modestbranding=1&rel=0&playsinline=1`}
+                        title={`${t.name} testimonial`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div className="px-6 py-4 text-sm font-bold text-ink">
+                      {t.name} — {t.flag} {t.location.split(",")[0].toUpperCase()}
+                      <span className="block font-normal text-muted text-xs mt-0.5">{t.location.split(",")[1]?.trim()}</span>
+                    </div>
+                  </div>
+                  <div className="p-10 flex flex-col justify-center">
+                    <div className="text-accent text-xl mb-6 tracking-wider">
+                      {"★".repeat(t.rating)}
+                    </div>
+                    <p className="text-ink text-lg leading-relaxed mb-8">&quot;{t.quote}&quot;</p>
+                    <p className="text-muted text-base font-semibold">— {t.name}, {t.role}</p>
                   </div>
                 </div>
               </div>
