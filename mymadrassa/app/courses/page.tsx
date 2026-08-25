@@ -2,8 +2,6 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { courses } from "@/lib/courses";
 
-const BOOKING_URL = "https://calendly.com/mymadrassa";
-
 const faqs = [
   {
     q: "Do I need any prior knowledge to enrol?",
@@ -58,14 +56,12 @@ export default function CoursesPage() {
               Structured programmes in Tajweed, Hifz, Arabic, Ijaazah, and the Sciences of the Qur&apos;an — each taught individually by a qualified scholar with an authentic ijazah chain.
             </p>
             <div className="flex flex-wrap items-center gap-5">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/book-free-call"
                 className="bg-sidebar text-white font-bold px-8 py-4 rounded-2xl text-base hover:opacity-90 transition-opacity"
               >
                 Book free diagnostic call →
-              </a>
+              </Link>
               <a href="#courses-list" className="text-ink font-semibold text-base underline underline-offset-4 hover:text-accent transition-colors">
                 Browse courses ↓
               </a>
@@ -193,14 +189,12 @@ export default function CoursesPage() {
             Book a free 30 min call. We assess your level and recommend the right course and teacher for you.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/book-free-call"
               className="bg-accent text-sidebar font-bold px-10 py-4 rounded-2xl text-base hover:opacity-90 transition-opacity"
             >
               Book free call →
-            </a>
+            </Link>
             <Link href="/teachers" className="text-white/60 font-semibold text-base hover:text-white transition-colors">
               Meet the scholars →
             </Link>

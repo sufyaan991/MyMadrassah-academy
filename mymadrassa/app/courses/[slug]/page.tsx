@@ -1,9 +1,9 @@
 import Navbar from "@/components/Navbar";
 import { getCourseBySlug, courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 const TYPEFORM_URL = "https://form.typeform.com/to/XXXXXXXX";
-const BOOKING_URL = "https://calendly.com/mymadrassa";
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -75,14 +75,12 @@ export default async function CoursePage({
               >
                 Enrol now →
               </a>
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/book-free-call"
                 className="block text-center border border-line text-ink font-semibold py-4 rounded-2xl text-base hover:border-accent hover:text-accent transition-colors"
               >
                 Book free 30 min call
-              </a>
+              </Link>
               <p className="text-center text-muted text-xs mt-4">No commitment required for the free call</p>
             </div>
 
@@ -189,14 +187,12 @@ export default async function CoursePage({
             >
               Enrol now →
             </a>
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/book-free-call"
               className="text-white/60 font-semibold text-base hover:text-white transition-colors"
             >
               Book free call first →
-            </a>
+            </Link>
           </div>
         </div>
       </section>
