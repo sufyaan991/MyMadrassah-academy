@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 interface NavItem {
   label: string;
@@ -22,9 +23,7 @@ export default function Sidebar({ role, sections, user }: SidebarProps) {
   return (
     <aside className="w-56 bg-sidebar flex flex-col h-full shrink-0">
       <div className="px-4 py-5 flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-sidebar font-bold text-base">
-          م
-        </div>
+        <Logo variant="mark" tone="dark" size={26} showWordmark={false} href={null} />
         <div>
           <div className="text-white font-semibold text-sm leading-tight">MyMadrassa</div>
           <div className="text-white/30 text-[10px] uppercase tracking-widest">{role}</div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import Logo from "@/components/Logo";
 import Reveal from "@/components/Reveal";
 import FeatureGrid from "@/components/FeatureGrid";
 import StatsBar from "@/components/StatsBar";
@@ -305,11 +306,8 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-8 py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
             <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-lg bg-accent flex items-center justify-center">
-                  <span className="text-sidebar font-bold">م</span>
-                </div>
-                <span className="font-bold text-white text-lg">MyMadrassa</span>
+              <div className="mb-5">
+                <Logo size={34} tone="dark" href={null} textClassName="text-white text-lg" />
               </div>
               <p className="text-white/30 text-base leading-relaxed">
                 Islamic learning for the modern world.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function SignupPage() {
   return (
@@ -6,12 +7,9 @@ export default function SignupPage() {
       <div className="w-full max-w-lg">
         {/* Logo */}
         <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-sidebar flex items-center justify-center">
-              <span className="text-accent font-bold text-xl">م</span>
-            </div>
-            <span className="font-bold text-ink text-2xl">MyMadrassa</span>
-          </Link>
+          <div className="mb-8 flex justify-center">
+            <Logo size={44} textClassName="text-ink text-2xl" />
+          </div>
           <h1 className="text-4xl font-bold text-ink">Create your account</h1>
           <p className="text-muted text-lg mt-2">Start your Islamic learning journey</p>
         </div>

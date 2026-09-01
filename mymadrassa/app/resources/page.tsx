@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import Logo from "@/components/Logo";
 import Reveal from "@/components/Reveal";
 
 const courseResources = [
@@ -160,12 +161,7 @@ export default function ResourcesPage() {
       {/* Footer */}
       <footer className="bg-sidebar border-t border-white/5 py-10">
         <div className="max-w-7xl mx-auto px-6 md:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-              <span className="text-sidebar font-bold text-sm">م</span>
-            </div>
-            <span className="font-bold text-white">MyMadrassa</span>
-          </div>
+          <Logo size={30} tone="dark" href={null} textClassName="text-white text-base" />
           <p className="text-white/20 text-sm">© 2026 MyMadrassa. All rights reserved.</p>
         </div>
       </footer>
