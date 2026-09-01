@@ -18,15 +18,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="border-b border-line sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-sidebar flex items-center justify-center">
-            <span className="text-accent font-bold text-lg">م</span>
+    <nav className="border-b border-line sticky top-0 z-50 bg-white/85 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 h-[72px] grid grid-cols-[1fr_auto_1fr] items-center gap-6">
+        <Link href="/" className="flex items-center gap-2.5 justify-self-start">
+          <div className="w-9 h-9 rounded-lg bg-sidebar flex items-center justify-center">
+            <span className="text-accent font-bold text-base">م</span>
           </div>
-          <span className="font-bold text-ink text-xl tracking-tight">MyMadrassa</span>
+          <span className="font-bold text-ink text-lg tracking-tight">MyMadrassa</span>
         </Link>
-        <div className="hidden md:flex items-center gap-10 text-base font-medium">
+        <div className="hidden md:flex items-center gap-8 text-[15px] font-medium justify-self-center">
           {navItems.map((item) => {
             const active = isActive(item.href);
 
@@ -42,11 +42,11 @@ export default function Navbar() {
             );
           })}
         </div>
-        <div className="flex items-center gap-4">
-          <Link href="/login" className="text-base font-medium text-muted hover:text-ink transition-colors">
+        <div className="flex items-center gap-2 sm:gap-4 justify-self-end">
+          <Link href="/login" className="hidden sm:inline text-[15px] font-medium text-muted hover:text-ink transition-colors px-2">
             Sign in
           </Link>
-          <Link href="/portal" className="bg-sidebar text-white text-base font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
+          <Link href="/portal" className="bg-sidebar text-white text-[15px] font-semibold px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
             Student portal
           </Link>
         </div>

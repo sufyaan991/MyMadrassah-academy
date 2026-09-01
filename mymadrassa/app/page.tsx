@@ -1,44 +1,54 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import Reveal from "@/components/Reveal";
+import FeatureGrid from "@/components/FeatureGrid";
+import StatsBar from "@/components/StatsBar";
+
+const stats = [
+  { value: "3,400+", label: "Students worldwide" },
+  { value: "18", label: "Expert scholars" },
+  { value: "40+", label: "Courses available" },
+  { value: "94%", label: "Completion rate" },
+];
 
 const features = [
   {
-    icon: "📞",
+    icon: "diagnostic",
     title: "Free diagnostic session",
     desc: "Start with a one-to-one assessment. We evaluate your current level and build a personalised learning pathway.",
   },
   {
-    icon: "🎙️",
+    icon: "live",
     title: "Live classes with scholars",
     desc: "Learn in real-time with certified teachers who hold authentic ijazah chains.",
   },
   {
-    icon: "📈",
+    icon: "progression",
     title: "Structured progression",
     desc: "Follow a clear curriculum from beginner to advanced, with milestones and certificates.",
   },
   {
-    icon: "🔁",
+    icon: "recordings",
     title: "Recordings on demand",
     desc: "Every class recorded. Revisit any lesson, any time, at your own pace.",
   },
   {
-    icon: "✅",
+    icon: "tracking",
     title: "Hifz & Tajweed tracking",
     desc: "Track your Qur'an memorisation and Tajweed progress with detailed reports.",
   },
   {
-    icon: "🌍",
+    icon: "global",
     title: "Learn from anywhere",
     desc: "Classes run across time zones. Students from 40+ countries learning together.",
   },
   {
-    icon: "🏅",
+    icon: "certificate",
     title: "Recognised certificates",
     desc: "Complete courses and receive certificates signed by our scholars.",
   },
   {
-    icon: "💬",
+    icon: "support",
     title: "WhatsApp support",
     desc: "Direct access to your teacher between sessions. Ask questions, share recitations, stay consistent.",
   },
@@ -101,7 +111,7 @@ export default function LandingPage() {
 
       {/* Hero */}
       <section className="bg-warm">
-        <div className="max-w-7xl mx-auto px-8 pt-32 pb-36">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 pt-24 md:pt-32 pb-28 md:pb-36">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
 
             {/* Left — copy */}
@@ -158,55 +168,34 @@ export default function LandingPage() {
         </div>
 
         {/* Stats bar */}
-        <div className="border-t border-line bg-white">
-          <div className="max-w-7xl mx-auto px-8 py-10 grid grid-cols-2 md:grid-cols-4 divide-x divide-line">
-            {[
-              { value: "3,400+", label: "Students worldwide" },
-              { value: "18", label: "Expert scholars" },
-              { value: "40+", label: "Courses available" },
-              { value: "94%", label: "Completion rate" },
-            ].map((s) => (
-              <div key={s.label} className="px-10 first:pl-0 last:pr-0">
-                <p className="text-4xl font-bold text-ink">{s.value}</p>
-                <p className="text-muted text-base mt-1">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <StatsBar stats={stats} />
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="py-28 border-b border-line">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="mb-16">
-            <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">How it works</p>
+      <section id="how-it-works" className="py-24 md:py-32 border-b border-line">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <Reveal className="mb-16 md:mb-20">
+            <p className="eyebrow-line text-accent text-sm font-bold uppercase tracking-widest mb-4">How it works</p>
             <h2 className="text-4xl md:text-5xl font-bold text-ink">Everything you need to learn, in one place.</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((f) => (
-              <div key={f.title} className="bg-warm rounded-2xl p-8 border border-line">
-                <div className="text-4xl mb-5">{f.icon}</div>
-                <h3 className="font-bold text-ink text-xl mb-3">{f.title}</h3>
-                <p className="text-muted text-base leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
+          </Reveal>
+          <FeatureGrid features={features} />
         </div>
       </section>
 
       {/* Study formats */}
-      <section id="courses" className="py-28 border-b border-line bg-warm">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="mb-14">
-            <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Study formats</p>
+      <section id="courses" className="py-24 md:py-32 border-b border-line bg-warm">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <Reveal className="mb-16 md:mb-20">
+            <p className="eyebrow-line text-accent text-sm font-bold uppercase tracking-widest mb-4">Study formats</p>
             <h2 className="text-4xl md:text-5xl font-bold text-ink mb-5">Two ways to study with us.</h2>
             <p className="text-muted text-lg leading-relaxed max-w-2xl">
               Go private for a pace built entirely around you, or join a live cohort with other students. Nothing here is pre-recorded — every seat is a real class.
             </p>
-          </div>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {paths.map((p) => (
-              <div key={p.title} className="bg-white border border-line p-8 flex flex-col">
+            {paths.map((p, i) => (
+              <Reveal key={p.title} index={i}>
+                <div className="feature-card group h-full bg-white border border-line p-8 flex flex-col">
                 <div className="flex items-start gap-4 mb-5">
                   <div className="w-12 h-12 bg-sand flex items-center justify-center shrink-0">
                     <span className="text-ink font-bold text-base" dir="rtl">{p.icon}</span>
@@ -231,22 +220,24 @@ export default function LandingPage() {
                     {p.cta}
                   </button>
                 </div>
-              </div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-28 border-b border-line bg-warm">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="mb-14">
-            <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Testimonials</p>
+      <section className="py-24 md:py-32 border-b border-line bg-warm">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <Reveal className="mb-16 md:mb-20">
+            <p className="eyebrow-line text-accent text-sm font-bold uppercase tracking-widest mb-4">Testimonials</p>
             <h2 className="text-4xl md:text-5xl font-bold text-ink">Trusted by thousands of students.</h2>
-          </div>
+          </Reveal>
           <div className="space-y-8">
-            {testimonials.map((t) => (
-              <div key={t.name} className="bg-white border border-line overflow-hidden rounded-[28px] shadow-sm hover:shadow-md transition-shadow">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} index={i}>
+              <div className="bg-white border border-line overflow-hidden rounded-[28px] shadow-sm hover:shadow-md transition-shadow">
                 <div className="grid grid-cols-1 sm:grid-cols-[280px_1fr]">
                   <div>
                     <div className="aspect-[9/16] bg-ink m-3 rounded-2xl overflow-hidden sm:mb-0">
@@ -272,14 +263,15 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Donate */}
-      <section className="bg-sidebar py-28">
-        <div className="max-w-4xl mx-auto px-8 text-center">
+      <section className="bg-sidebar py-24 md:py-32">
+        <Reveal className="max-w-4xl mx-auto px-6 md:px-8 text-center">
           <p
             className="text-accent font-semibold leading-tight tracking-tight mb-10 text-5xl md:text-6xl"
             dir="rtl"
@@ -287,7 +279,7 @@ export default function LandingPage() {
           >
             مَدْرَسَتِي الْقُرْآنِيَّة
           </p>
-          <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Support our institute</p>
+          <p className="eyebrow-line text-accent text-sm font-bold uppercase tracking-widest mb-4">Support our institute</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Invest in a lasting sadaqah.
           </h2>
@@ -305,12 +297,12 @@ export default function LandingPage() {
               Give monthly →
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Footer */}
       <footer className="bg-sidebar border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-8 py-16">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-3 mb-5">
