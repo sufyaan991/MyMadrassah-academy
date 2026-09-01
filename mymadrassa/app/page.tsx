@@ -277,27 +277,32 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* Donate */}
       <section className="bg-sidebar py-28">
         <div className="max-w-4xl mx-auto px-8 text-center">
-          <p className="text-accent font-semibold text-xl uppercase tracking-widest mb-6" dir="rtl">
-            وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا
+          <p
+            className="text-accent font-semibold leading-tight tracking-tight mb-10 text-5xl md:text-6xl"
+            dir="rtl"
+            style={{ fontFamily: "var(--font-arabic), 'Scheherazade New', serif" }}
+          >
+            مَدْرَسَتِي الْقُرْآنِيَّة
           </p>
+          <p className="text-accent text-sm font-bold uppercase tracking-widest mb-4">Support our institute</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Begin your path to knowledge.
+            Invest in a lasting sadaqah.
           </h2>
           <p className="text-white/50 mb-12 text-xl">
-            Start with a free diagnostic call — we&apos;ll assess your level and match you to the right course and teacher.
+            Your contribution helps train our next generation of teachers, keeps our doors open to those who could never reach us, and funds the activities that keep our institute running. A sadaqah jariyah that keeps giving.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-5">
             <Link
-              href="/book-free-call"
+              href="/donate"
               className="bg-accent text-sidebar font-bold px-10 py-4 rounded-2xl text-lg hover:opacity-90 transition-opacity"
             >
-              Book free diagnostic call →
+              Donate now →
             </Link>
-            <Link href="/login" className="text-white/60 font-semibold text-lg hover:text-white transition-colors">
-              Already have an account →
+            <Link href="/donate#monthly" className="text-white/60 font-semibold text-lg hover:text-white transition-colors">
+              Give monthly →
             </Link>
           </div>
         </div>
